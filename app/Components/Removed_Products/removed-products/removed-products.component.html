@@ -1,0 +1,75 @@
+<div class="card">
+    <p-table
+        #dt2
+        [value]="product"
+        dataKey="productId"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [globalFilterFields]="['productName', 'barcode', 'userId']" 
+        [tableStyle]="{ 'min-width': '75rem' }"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-iconField iconPosition="left" class="ml-auto"></p-iconField>
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:25%">Product Name</th>
+                <th style="width:25%">Barcode</th>
+                <th style="width:25%">Quantity</th>
+                <th style="width:25%">User ID</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="productName" 
+                        placeholder="Search by product name" 
+                        ariaLabel="Filter Product Name" />
+                </th>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="barcode" 
+                        placeholder="Search by barcode" 
+                        ariaLabel="Filter Barcode" />
+                </th>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="quantity" 
+                        placeholder="Search by quantity" 
+                        ariaLabel="Filter Quantity" />
+                </th>
+                <th>
+                    <p-columnFilter 
+                        type="text"
+                        field="userId" 
+                        placeholder="Search by user ID" 
+                        ariaLabel="Filter User ID" />
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.productName }}</td>
+                <td>{{ product.barcode }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.userId }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No products found.</td>  
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<button pButton type="button" label="გასვლა" icon="pi pi-power-off" class="p-button-danger logoff-button" (click)="logOff()" style="position: absolute; top: 10px; right: 10px;"></button>
+<button pButton type="button" label="Manager Page" icon="pi pi-arrow-left" iconPos="left" (click)="goToRemovedProducts()" style="margin-top: 10px;"></button>
+
+

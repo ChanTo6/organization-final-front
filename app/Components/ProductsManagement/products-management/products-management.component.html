@@ -1,0 +1,347 @@
+<p-button  (click)="updateStatus(1)">Active</p-button >
+<p-button  (click)="updateStatus(0)">Deactive</p-button >
+
+
+<div class="tab-container">
+  <ul class="tabs">
+    <p-button 
+    label="პროდუქცია" 
+    (click)="selectTab('entered')" 
+    [class.active]="activeTab === 'entered'" 
+    [ngClass]="{'p-button-outlined': activeTab !== 'entered'}"></p-button>
+
+<p-button 
+    label="გასული პროდუქცია" 
+    (click)="selectTab('out')" 
+    [class.active]="activeTab === 'out'" 
+    [ngClass]="{'p-button-outlined': activeTab !== 'out'}"></p-button>
+
+<p-button 
+    label="ბალანსი" 
+    (click)="selectTab('balances')" 
+    [class.active]="activeTab === 'balances'" 
+    [ngClass]="{'p-button-outlined': activeTab !== 'balances'}"></p-button>
+
+<p-button 
+    label="საწყობი" 
+    (click)="selectTab('warehouses')" 
+    [class.active]="activeTab === 'warehouses'" 
+    [ngClass]="{'p-button-outlined': activeTab !== 'warehouses'}"
+    [hidden]="role !== 'manager'"></p-button>
+
+  </ul>
+
+  <div class="button-wrapper" style="text-align: right;"> 
+    <p-button  
+      [disabled]="role === 'manager'" 
+      (click)="showDialog()" 
+      [ngClass]="{'disabled-button': role === 'manager'}">
+      <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;ახალი ჩანაწერი
+    </p-button>
+  </div>
+  
+  <p-button  
+  label="ახალი საწყობი" 
+  icon="fa-solid fa-plus" 
+  [disabled]="role === 'operator'" 
+  (click)="openDialog()" 
+  [ngClass]="{'disabled-button': role === 'operator'}">
+</p-button>
+  
+
+
+  <div *ngIf="activeTab === 'entered'">
+    <p-table [value]="enteredProducts" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>
+                  Barcode
+                  <p-columnFilter
+                      field="barcode"
+                      placeholder="Search by barcode"
+                      ariaLabel="Filter Barcode"
+                  />
+              </th>
+              <th>
+                  Product Name
+                  <p-columnFilter
+                      field="productName"
+                      placeholder="Search by name"
+                      ariaLabel="Filter Name"
+                  />
+              </th>
+              <th>
+                  Quantity
+                  <p-columnFilter
+                      field="quantity"
+                      placeholder="Search by quantity"
+                      ariaLabel="Filter Quantity"
+                  />
+              </th>
+              <th>
+                  Product ID
+                  <p-columnFilter
+                      field="productId"
+                      placeholder="Search by product ID"
+                      ariaLabel="Filter Product ID"
+                  />
+              </th>
+
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr (click)="onRowSelect(product)">
+            <td>{{ product.barcode }}</td>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.productId }}</td>
+        </tr>
+        <p-button label="პროდუქციის გატანა" [rounded]="true" severity="danger" (click)="onRemoveProduct(product)"></p-button>
+    </ng-template>
+  </p-table> 
+
+</div>
+
+
+<!-- <td>
+  <button (click)="onRemoveProduct(product)">Remove</button>
+</td> -->
+
+<p-dialog header="Remove Product" [(visible)]="displayDialog" [modal]="true" [closable]="false">
+  <div>
+    <p>How many units of <strong>{{ selectedProduct?.productName }}</strong> (barcode: <strong>{{ selectedProduct?.barcode }}</strong>) do you want to remove?</p>
+    <!-- Input field for quantity -->
+    <div class="p-field">
+      <label for="quantity">Quantity to remove:</label>
+      <input type="number" id="quantity" [(ngModel)]="quantityToRemove" min="1" pInputText>
+    </div>
+  </div>
+  <div class="dialog-footer">
+    <button (click)="confirmRemove()" pButton label="Confirm" icon="pi pi-check"></button>
+    <button (click)="hideDialog()" pButton label="Cancel" icon="pi pi-times"></button>
+  </div>
+</p-dialog>
+
+
+  <!-- Products Out Tab Content -->
+  <div *ngIf="activeTab === 'out'">
+    <p-table [value]="outProducts" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            Barcode
+            <p-columnFilter
+              type="text"
+              field="barcode"
+              placeholder="Search by barcode"
+              ariaLabel="Filter Barcode"
+            />
+          </th>
+          <th>
+            Product Name
+            <p-columnFilter
+              type="text"
+              field="productName"
+              placeholder="Search by name"
+              ariaLabel="Filter Name"
+            />
+          </th>
+          <th>
+            Quantity
+            <p-columnFilter
+              type="numeric"
+              field="quantity"
+              placeholder="Search by quantity"
+              ariaLabel="Filter Quantity"
+            />
+          </th>
+          <th>
+            Warehouse Name
+            <p-columnFilter
+              type="text"
+              field="warehouseName"
+              placeholder="Search by warehouse name"
+              ariaLabel="Filter Warehouse Name"
+            />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr (click)="onRowSelectOut(product)">
+          <td>{{ product.barcode }}</td>
+          <td>{{ product.productName }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.warehouseName }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  
+
+  <!-- Current Balances Tab Content -->
+  <div *ngIf="activeTab === 'balances'">
+    <p-table [value]="currentBalances" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            Warehouse Name
+            <p-columnFilter
+              type="text"
+              field="warehouseName"
+              placeholder="Search by warehouse name"
+              ariaLabel="Filter Warehouse Name"
+            />
+          </th>
+          <th>
+            Quantity Available
+            <p-columnFilter
+              type="numeric"
+              field="totalQuantity"
+              placeholder="Search by quantity"
+              ariaLabel="Filter Quantity"
+            />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-balance>
+        <tr>
+          <td>{{ balance.warehouseName }}</td>
+          <td>{{ balance.totalQuantity }}/40</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  
+
+  <!-- Warehouses Tab Content (Only for Manager) -->
+  <div *ngIf="activeTab === 'warehouses'">
+    <p-table [value]="warehouses" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            Warehouse Name
+            <p-columnFilter
+              type="text"
+              field="warehouseName"
+              placeholder="Search by warehouse name"
+              ariaLabel="Filter Warehouse Name"
+            />
+          </th>
+          <th>
+            Location
+            <p-columnFilter
+              type="text"
+              field="location"
+              placeholder="Search by location"
+              ariaLabel="Filter Location"
+            />
+          </th>
+          <th>
+            Capacity
+            <p-columnFilter
+              type="numeric"
+              field="capacity"
+              placeholder="Search by capacity"
+              ariaLabel="Filter Capacity"
+            />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-warehouse>
+        <tr>
+          <td>{{ warehouse.warehouseName }}</td>
+          <td>{{ warehouse.location }}</td>
+          <td>40</td> <!-- You can replace this with the actual capacity value if it exists in your data -->
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  
+
+
+  <p-dialog 
+  [(visible)]="displayDialogEdit" 
+  [modal]="true" 
+  [closable]="false" 
+  [header]="isEditMode ? 'Edit Product' : 'Add Product'">
+  
+  <form [formGroup]="productForm" (ngSubmit)="saveProduct()" style="display: flex; flex-direction: column; padding: 20px;">
+    <div style="margin-bottom: 15px;">
+      <label for="barcode">Barcode:</label>
+      <input type="text" pInputText formControlName="barcode" />
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label for="ProductName">Product Name:</label>
+      <input type="text" pInputText formControlName="ProductName" />
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <label for="quantity">Quantity:</label>
+      <input type="number" pInputText formControlName="quantity" min="1" max="40" (keydown)="validateQuantityInput($event)" />
+      <div *ngIf="productForm.get('quantity')?.hasError('min') && productForm.get('quantity')?.touched">
+        Quantity must be at least 1.
+      </div>
+
+      <div *ngIf="productForm.get('quantity')?.hasError('max') && productForm.get('quantity')?.touched">
+        Quantity cannot exceed 40.
+      </div>
+    </div>
+    <div style="margin-bottom: 15px;">
+      <label for="warehouse">Warehouse:</label>
+      <p-dropdown 
+      [options]="warehouses" 
+      optionLabel="warehouseName" 
+      optionValue="warehouseName"
+      formControlName="warehouse" 
+      placeholder="Select a Warehouse">
+    </p-dropdown>
+    
+    </div>
+    
+    
+
+    <div style="margin-bottom: 15px;">
+      <label for="location">Location:</label>
+      <input type="text" pInputText formControlName="location" />
+    </div>
+
+    
+    <div class="button-container">
+      <p-button type="submit">{{ isEditMode ? 'Save' : 'Add' }}</p-button>
+      <p-button label="Cancel" [rounded]="true" severity="secondary" type="button" (click)="hideDialog()"></p-button>
+    </div>
+  </form>
+
+</p-dialog>
+
+
+<p-dialog header="Add Warehouse" [(visible)]="displayWarehouseDialog" [modal]="true" [closable]="false">
+  <form (ngSubmit)="addWarehouse()" #warehouseForm="ngForm">
+    <div class="card flex justify-content-center p-fluid">
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input id="warehouseName" [(ngModel)]="newWarehouse.warehouseName" name="warehouseName" pInputText required />
+          <label for="warehouseName">Warehouse Name</label>
+        </p-floatLabel>
+        <small *ngIf="warehouseForm.submitted && !newWarehouse.warehouseName" class="p-error">Warehouse name is required.</small>
+      </div>
+
+      <div class="p-field">
+        <p-floatLabel>
+          <input id="location" [(ngModel)]="newWarehouse.location" name="location" pInputText required />
+          <label for="location">Location</label>
+        </p-floatLabel>
+        <small *ngIf="warehouseForm.submitted && !newWarehouse.location" class="p-error">Location is required.</small>
+      </div>
+
+      <p-footer>
+        <p-button type="submit" label="Add" icon="pi pi-check"></p-button>
+        <p-button type="button" (click)="onCancel()" label="Cancel" icon="pi pi-times"></p-button>
+      </p-footer>
+    </div>
+  </form>
+</p-dialog>
+
+<p-button class="turnoff" (click)="turnoff()">სისტემიდან გასვლა <i class="fa-solid fa-arrow-right-from-bracket"></i></p-button>

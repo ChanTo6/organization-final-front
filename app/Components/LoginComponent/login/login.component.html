@@ -1,0 +1,73 @@
+
+
+<div class="border" *ngIf="showLoginForm">
+  <div class="authorizationregistration">
+    <p-button label="ავტორიზაცია" (click)="navigateToAuthorization()"></p-button>
+    <p-button label="რეგისტრაციაა" class="custom-btn" (click)="navigateToRegistration()" ></p-button>
+
+  </div>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="namepassword">
+      <p>მომხმარებლის სახელი</p>
+      <input type="text" pInputText formControlName="username" />
+      <p>პაროლი</p>
+      <input type="password" pInputText formControlName="password" />
+      <p-button label="შესვლა" type="submit"></p-button>
+
+    </div>
+  </form>
+</div>
+
+<div class="border2" *ngIf="!showLoginForm">
+  <div class="authorizationregistration">
+    <p-button (click)="navigateToAuthorization()" class="auth-button">ავტორიზაცია</p-button>
+    <p-button>რეგისტრაცია</p-button>
+  </div>
+
+  <form [formGroup]="registrationForm" (ngSubmit)="RegisteronSubmit()">
+    <div class="form-container">
+      <div class="form-group">    
+        <p>თანამშრომლის სახელი <span class="required"> *</span></p>
+        <input formControlName="employeeName" type="text" />
+      </div>
+      <div class="form-group">
+        <p>თანამშრომლის გვარი <span class="required"> *</span></p>
+        <input formControlName="employeeLastName" type="text" />
+      </div>
+      <div class="form-group">
+        <p>პაროლი <span class="required"> *</span></p>
+        <input formControlName="password" type="password" />
+        <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+          Password is required and must be at least 6 characters
+        </div>
+      </div>
+      <div class="form-group">
+        <p>ორგანიზაციის დასახელება <span class="required"> *</span></p>
+        <input formControlName="organizationName" type="text" />
+      </div>
+      <div class="form-group">
+        <p>ორგანიზაციის მისამართი <span class="required"> *</span></p>
+        <input formControlName="organizationAddress" type="text" />
+      </div>
+      <div class="form-group">
+        <p>ელ.ფოსტა</p>
+        <input formControlName="email" type="email" />
+        <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+          <span *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email format</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <p>ტელ.ნომერი</p>
+        <input formControlName="phoneNumber" type="text" />
+      </div>
+      <div class="form-group">
+        <p>პირადი ნომერი <span class="required"> *</span></p>
+        <input formControlName="personId" type="text" />
+        <div *ngIf="registrationForm.get('personId')?.invalid && registrationForm.get('personId')?.touched">
+          Person ID is required
+        </div>
+      </div>      
+    </div>
+    <button type="submit" class="register-btn">რეგისტრაცია</button>
+  </form>
+</div>

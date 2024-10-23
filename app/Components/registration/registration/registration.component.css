@@ -1,0 +1,149 @@
+.border {
+  width: 1000px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;  
+  justify-content: center; 
+  align-items: center;   
+  position: relative; 
+  margin: auto;   
+  background-color: wheat; 
+  margin-top: 100px;
+  border-radius: 15px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.authorizationregistration {
+  position: absolute;
+  top: -30px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 60px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 80px; 
+  justify-items: center;
+  color: #4474BD;
+}
+
+.reg-button {
+  margin-top: 40px;
+  width: 70%;
+  max-width: 500px;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 25px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reg-button:hover {
+  background-color: #DEEBFF;
+}
+
+.namepassword {
+  margin-bottom: 200px;
+  display: flex;
+  flex-direction: column;  
+  align-items: center;    
+  gap: 10px;               
+}
+
+input {
+  width: 300px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  padding-left: 10px; 
+  font-size: 14px; 
+}
+
+.authorizationregistration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100px;
+}
+
+button {
+  width: 305px;
+  height: 40px;
+  border-radius: 50px;
+  color: #2869CA;
+  border: none;
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+.auth-button {
+  background-color: #f0f0f0; 
+}
+
+.auth-button:hover {
+  background-color: #DEEBFF; 
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px;
+  margin-top: 40px;
+  justify-items: center; 
+  color: #4474BD;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%; 
+}
+
+.form-group p {
+  margin-bottom: 5px;
+  font-weight: bold; 
+}
+
+input {
+  width: 100%; 
+  max-width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+.required {
+  color: red;
+  font-weight: bold;
+}
+
+.reg-button {
+  margin-top: 40px;
+  width: 70%;
+  max-width: 500px;
+  height: 50px;
+  font-size: 16px; 
+  border-radius: 25px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reg-button:hover {
+  background-color: #DEEBFF;
+}

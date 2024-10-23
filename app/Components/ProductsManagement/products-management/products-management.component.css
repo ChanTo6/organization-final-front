@@ -1,0 +1,77 @@
+/* Styles for the dialog */
+:host ::ng-deep .p-dialog {
+    width: 600px; /* Adjust width as needed */
+  }
+  
+  /* Style the form labels and inputs */
+  label {
+    display: block; /* Ensure labels stack above inputs */
+    margin-bottom: 5px; /* Spacing between label and input */
+  }
+  
+  input {
+    width: 100%; /* Make inputs full width */
+  }
+  .button-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons to the right */
+    gap: 10px; /* Adds space between buttons */
+  }
+  .button-margin {
+    margin-left: 10px; /* Space between buttons */
+  }
+  .turnoff {
+    position: absolute; /* Position it absolutely */
+    top: 10px; /* Adjust the distance from the top */
+    right: 10px; /* Adjust the distance from the right */
+}
+
+.turnoff {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.turnoff i {
+  margin-left: 8px; /* Add space between the text and the icon */
+  font-size: 16px;
+}
+
+.turnoff:hover {
+  background-color: #0056b3; /* Optional: hover effect */
+}
+.disabled-button {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.p-speedDial {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.p-speedDial:hover {
+  background-color: #218838;
+}
+
+.p-speedDial.disabled-button {
+  background-color: #cccccc; /* Optional: Disabled button color */
+}
+
+.button-wrapper {
+  display: flex;          /* Use Flexbox for alignment */
+  justify-content: flex-end; /* Aligns items to the right */
+  margin-top: 10px;      /* Add some margin to the top if needed */
+}

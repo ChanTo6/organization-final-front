@@ -1,0 +1,11 @@
+<div *ngIf="role === 'admin'">
+  <app-warehouse></app-warehouse> 
+</div>
+
+<div *ngIf="role && role !== 'admin'">
+  <app-products-management></app-products-management> 
+</div>
+
+<div *ngIf="!role">
+  <app-login></app-login>
+</div>
